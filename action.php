@@ -282,7 +282,70 @@
         $formType = $_POST['formType'];
 
         if($formType == "user") {
+//EDIT USER
+          $formID = $_POST['formID'];
+          $formFirst = $_POST['formFirst'];
+          $formLast = $_POST['formLast'];
+          $formEmail = $_POST['formEmail'];
 
+          $checkID = $con->prepare("SELECT * FROM users WHERE userID=?");
+          $checkID->bind_param("i", $formID);
+          $checkID->execute();
+          $checkID->store_result();
+          if($checkID->num_rows > 0) {
+            $updateUser = $con->prepare("UPDATE users SET userFirst=?,userLast=?,userEmail=? WHERE userID=?");
+            $updateUser->bind_param("sssi", $formFirst,$formLast,$formEmail,$formID);
+            if($updateUser->execute()) {
+    ?>
+    <p class="alert">user updated, redirecting...</p>
+    <?php
+              redirect("./admin.php");
+            } else {
+    ?>
+    <p class="alert">user could not be updated, try again...</p>
+    <?php
+              redirect("./edit.php?a=user&id=$formID");
+            };
+            $updateUser->close();
+          } else {
+    ?>
+    <p class="alert">a valid user ID is required, redirecting...</p>
+    <?php
+            redirect("./admin.php");
+          };
+          $checkID->close();
+        } else if($formType == "userpass") {
+//EDIT PASS
+          $formID = $_POST['formID'];
+          $formPass = $_POST['formPass'];
+          $formPass = better_crypt($formPass);
+
+          $checkID = $con->prepare("SELECT * FROM users WHERE userID=?");
+          $checkID->bind_param("i", $formID);
+          $checkID->execute();
+          $checkID->store_result();
+          if($checkID->num_rows > 0) {
+            $updateUser = $con->prepare("UPDATE users SET userPass=? WHERE userID=?");
+            $updateUser->bind_param("si", $formPass,$formID);
+            if($updateUser->execute()) {
+    ?>
+    <p class="alert">user password updated, redirecting...</p>
+    <?php
+              redirect("./admin.php");
+            } else {
+    ?>
+    <p class="alert">user password could not be updated, try again...</p>
+    <?php
+              redirect("./edit.php?a=user&id=$formID");
+            };
+            $updateUser->close();
+          } else {
+    ?>
+    <p class="alert">a valid user ID is required, redirecting...</p>
+    <?php
+            redirect("./admin.php");
+          };
+          $checkID->close();
         } else {
     ?>
     <p class="alert">a valid edit type is required, redirecting...</p>

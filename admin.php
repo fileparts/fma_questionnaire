@@ -74,7 +74,7 @@
           if($_SESSION['q_userID'] == $catAdmin || $_SESSION['q_userPerms'] > 3) {
           ?>
           <a href="./display.php?id=<?php echo $catID; ?>" title="View Questionnaire"><i class="fa fa-fw fa-eye"></i></a>
-          <a href="./edit.php?t=qn&id=<?php echo $catID; ?>" title="Edit Questionnaire"><i class="fa fa-fw fa-cog"></i></a>
+          <a href="./edit.php?a=qn&id=<?php echo $catID; ?>" title="Edit Questionnaire"><i class="fa fa-fw fa-cog"></i></a>
           <?php
           };
           ?>
@@ -129,7 +129,7 @@
             };
             if($userPerms < 5) {
             ?>
-            <a href="./edit.php?t=user&id=<?php echo $userID; ?>"><i class="fa fa-fw fa-cog"></i></a>
+            <a href="./edit.php?a=user&id=<?php echo $userID; ?>"><i class="fa fa-fw fa-cog"></i></a>
             <?php }; ?>
           </td>
         </tr>
